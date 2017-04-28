@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.puyixiaowo.tnews.news.persistence.ApiChannelCustomMapper" >
+	<sql id="apiChannel">t_api_channel</sql>
+	
+	<select id="selectListByNewsChannelExists" resultType="com.puyixiaowo.tnews.news.bean.ApiChannelBean">
+		select ac.* from t_api_channel ac
+		right join t_news_api_channel nac
+		on ac.id = nac.api_channel_id
+	</select>
+</mapper>

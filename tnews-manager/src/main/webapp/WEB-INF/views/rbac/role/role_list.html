@@ -1,0 +1,37 @@
+<#assign base=request.contextPath />
+<div class="bjui-pageContent">
+    <table class="table table-bordered" id="datagrid_permission_list" data-toggle="datagrid" data-options="{
+        height: '100%',
+        gridTitle : '角色列表',
+        showToolbar: true,
+        toolbarItem: 'add,save,cancel,edit,del',
+        loadType: 'POST',
+        dataUrl: '${base}/role/true',
+        dataType: 'json',
+        editUrl: '${base}/role/edit/true',
+        delType: 'POST',
+        delUrl: '${base}/role/delete',
+        delPK: 'id',
+        local: 'remote',
+        filterAll: true,
+        paging: {pageSize: 20,selectPageSize:'20,40,100'},
+        showCheckboxcol: true,
+        linenumberAll: true,
+        afterSave: function($trs, datas) {
+        	$trs.closest('table').datagrid('refresh', true);
+        },
+        toolbarCustom: function(){
+        	var url = '${base}/role/setPermission/false';
+        	return role.btnSetPermissions(url);
+        }
+    }">
+        <thead>
+            <tr>
+                <th data-options="{name:'id',align:'center',quickfilter:false,width: 45,add:false,edit:false}">ID</th>
+                <th data-options="{name:'roleName',align:'center',width: 120}">角色名</th>
+                <th data-options="{name:'code',align:'center',width: 120}">代码</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<script type="text/javascript" src="${base}/js/rbac/role/role_list.js"></script>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="myRealm" class="com.puyixiaowo.tnews.manager.shiro.MyRealm" />
+	<bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+	<bean id="redisSessionDAO" class="com.puyixiaowo.tnews.manager.shiro.RedisSessionDao"></bean>
+	<!--配置shiro的sessionManager -->
+	<bean id="webSessionManager"
+		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<!-- 相隔多久检查一次session的有效性 -->
+		<property name="sessionValidationInterval" value="1800000"/>
+		<!-- session 有效时间为半小时 （毫秒单位）-->
+		<property name="globalSessionTimeout" value="1800000"/>
+		<!-- 是否在会话过期后会调用SessionDAO的delete方法删除会话 默认true -->
+		<property name="deleteInvalidSessions" value="true" />
+		<property name="sessionDAO" ref="redisSessionDAO" />
+	</bean>
+	
+	<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="rememberMe"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="#{30 * 24 * 60 * 60}"/><!-- 30天 -->
+    </bean>
+    
+	<!-- rememberMe管理器 -->
+    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <!-- rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度（128 256 512 位）-->
+        <property name="cipherKey"
+                  value="#{T(org.apache.shiro.codec.Base64).decode('bHN5d29tZW5qaWVodW5iYQ==')}"/>
+        <property name="cookie" ref="rememberMeCookie"/>
+    </bean>
+
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="myRealm" />
+		<property name="cacheManager" ref="cacheManager" />
+		<property name="sessionManager" ref="webSessionManager" />
+		<!-- 配合/**=user使用 -->
+		<property name="rememberMeManager" ref="rememberMeManager"/>
+	</bean>
+
+	<!-- /**=authc -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager"></property>
+		<property name="loginUrl" value="/login"></property>
+		<property name="successUrl" value="/"></property>
+		<property name="unauthorizedUrl" value="/unauthorized"></property>
+		<property name="filterChainDefinitions">
+			<value>
+				/js/**=anon
+				/css/**=anon
+				/libs/**=anon
+				/images/**=anon
+				/fonts/**=anon
+				/themes/**=anon
+				/doc/**=anon
+				/unauthorized=anon
+				/doLogin=anon
+				/captcha.jpg=anon
+				/**=user
+			</value>
+		</property>
+	</bean>
+
+	<!-- 捕获无权限页面(已在异常捕捉中处理)
+	<bean
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.apache.shiro.authz.UnauthorizedException">/error/unauthorized</prop>
+			</props>
+		</property>
+	</bean>
+	-->
+	<!-- AOP式方法级权限检查 -->
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor">
+		<property name="proxyTargetClass" value="true" />
+	</bean>
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+
+</beans>

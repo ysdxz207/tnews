@@ -1,0 +1,39 @@
+<#assign base=request.contextPath />
+<input type="hidden" value='${roles!}' id="user_lise_roles"/>
+<div class="bjui-pageContent">
+    <table class="table table-bordered" id="datagrid_user_list_filter" data-toggle="datagrid" data-options="{
+        height: '100%',
+        tableWidth: '98%',
+        gridTitle : '用户列表',
+        showToolbar: true,
+        toolbarItem: 'add,save,cancel,edit,del',
+        loadType: 'POST',
+        dataUrl: '${base}/user/true',
+        dataType: 'json',
+        editUrl: '${base}/user/edit/true',
+        delType: 'POST',
+        delUrl: '${base}/user/delete',
+        delPK: 'id',
+        local: 'remote',
+        filterAll: true,
+        paging: {pageSize: 20,selectPageSize:'20,40,100'},
+        showCheckboxcol: true,
+        linenumberAll: true,
+        afterSave: function($trs, datas) {
+        	$trs.closest('table').datagrid('refresh', true);
+        }
+    }">
+        <thead>
+            <tr>
+                <th data-options="{name:'id',align:'center',quickfilter:false,width: 45,add:false,edit:false}">ID</th>
+                <th data-options="{name:'loginname',align:'center',edit:false}">登录名</th>
+                <th data-options="{name:'password',align:'center',quickfilter:false}">密码</th>
+                <th data-options="{name:'nickname',align:'center'}">昵称</th>
+                <th data-options="{name:'roleId',align:'center',width:180,type:'select',items: function() {return $.getJSON('${base}/role/all/array')},itemattr: {value:'id',label:'roleName'}}">角色</th>
+                <th data-options="{name:'createTime',align:'center',quickfilter:false,type:'date',pattern:'yyyy-MM-dd HH:mm:ss',add:false,edit:false}">创建时间</th>
+                <th data-options="{name:'lastLoginTime',align:'center',quickfilter:false,type:'date',pattern:'yyyy-MM-dd HH:mm:ss',add:false,edit:false}">最后登录时间</th>
+                <th data-options="{name:'status',align:'center',width:160,type:'select',items:[{'1':'<font color=\'green\'>有效</font>'},{'0':'<font color=\'#ea2000\'>禁止登录</font>'}]}">状态</th>
+            </tr>
+        </thead>
+    </table>
+</div>

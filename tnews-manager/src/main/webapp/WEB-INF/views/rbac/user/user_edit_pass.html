@@ -1,0 +1,32 @@
+<#assign base=request.contextPath />
+<div class="bjui-pageContent">
+<form action="${base}/user/edit/true" class="datagrid-edit-form" data-toggle="validate" data-data-type="jsonp">
+    <input type="hidden" name="id" value="${model.id!}"/>
+    <div class="bjui-row col-1">
+        <label class="row-label">登录名</label>
+        <div class="row-input">
+            <input type="text" value="${(model.loginname)!}" readonly >
+        </div>
+        <label class="row-label">昵称</label>
+        <div class="row-input">
+            <input type="text" value="${(model.nickname)!}" readonly>
+        </div>
+        <label class="row-label">密码</label>
+        <div class="row-input required">
+            <input type="text" onfocus="this.type='password'" id="user_password" autocomplete="off" name="password" data-rule="密码:required">
+        </div>
+        <label class="row-label">重复密码</label>
+        <div class="row-input required">
+            <input type="text" onfocus="this.type='password'" id="user_password_re" autocomplete="off" data-rule="重复密码:required;match(#user_password)">
+        </div>
+
+    </div>
+</form>
+</div>
+
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+        <li><button type="submit" class="btn-default" data-icon="save">保存</button></li>
+    </ul>
+</div>

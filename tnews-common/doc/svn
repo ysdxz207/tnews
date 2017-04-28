@@ -1,0 +1,7 @@
+#开分支
+svn cp -m "研究替代ForkJoinPool的其他方法来提高同步新闻效率" http://code.taobao.org/svn/tnews/trunk/ http://code.taobao.org/svn/tnews/branches/forkjoin
+
+#合并分支
+svn merge --dry-run -rHEAD:HEAD http://code.taobao.org/svn/tnews/trunk
+
+svn merge -rHEAD:HEAD http://code.taobao.org/svn/tnews/trunk

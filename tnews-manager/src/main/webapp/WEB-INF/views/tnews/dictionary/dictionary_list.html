@@ -1,0 +1,43 @@
+<#assign base=request.contextPath />
+<div class="bjui-pageContent">
+    <table class="table table-bordered" id="datagrid_permission_list_filter" data-toggle="datagrid" data-options="{
+        height: '100%',
+        gridTitle : '角色列表',
+        showToolbar: true,
+        toolbarItem: 'add,save,cancel,edit,del',
+        loadType: 'POST',
+        dataUrl: '${base}/dictionary/true',
+        dataType: 'json',
+        editUrl: '${base}/dictionary/edit/true',
+        delType: 'POST',
+        delUrl: '${base}/dictionary/delete',
+        delPK: 'id',
+        local: 'remote',
+        filterAll: true,
+        paging: {pageSize: 20,selectPageSize:'20,40,100'},
+        showCheckboxcol: true,
+        linenumberAll: true,
+        afterSave: function($trs, datas) {
+        	$trs.closest('table').datagrid('refresh', true);
+        }
+    }">
+        <thead>
+            <tr>
+                <th data-options="{name:'id',align:'center',quickfilter:false,width: 45,add:false,edit:false}">ID</th>
+                <th data-options="{name:'keyDic',align:'center',width: 220}">字典key</th>
+                <th data-options="{name:'valueDic',align:'center',width: 220}">字典值</th>
+                <th data-options="{name:'newsChannelId',align:'center',width:80,type:'select',items: function() {return $.getJSON('${base}/news/channel/all/array')},itemattr: {value:'id',label:'channelName'}}">关联新闻频道</th>
+                <th data-options="{
+                	name:'typeDic',
+                	align:'center',
+                	width:200,
+                	type:'select',
+                	items: function() {
+                		return $.getJSON('${base}/dictionary/all/array');
+                	},
+                	itemattr: {value:'keyDic',label:'valueDic'}}">类型</th>
+                
+            </tr>
+        </thead>
+    </table>
+</div>

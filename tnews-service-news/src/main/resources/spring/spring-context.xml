@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+
+	<!-- 采用注释的方式配置bean -->
+	<context:annotation-config />
+	<!-- scan beans -->
+	<context:component-scan base-package="com.puyixiaowo.tnews">
+	</context:component-scan>
+
+	<!-- 读入配置属性文件 -->
+	<context:property-placeholder
+		location="classpath:dubbo-service.properties,classpath:jdbc/jdbc.properties,classpath:redis.properties" />
+
+	<!-- 当Spring容器启动完成后执行下面的这个Bean -->
+	<bean class="com.puyixiaowo.tnews.news.core.InitProcessor" />
+
+	<bean class="com.puyixiaowo.tnews.news.utils.ApplicationContextUtil" />
+
+
+	<import resource="classpath:spring/spring-redis.xml" />
+	<import resource="classpath:spring/spring-mybatis.xml" />
+	<import resource="classpath:spring/dubbo-provider.xml" />
+	<import resource="classpath:spring/spring-message.xml" />
+	<import resource="classpath:spring/spring-quartz.xml" />
+</beans>

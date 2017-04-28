@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.puyixiaowo.tnews.dictionary.persistence.DictionaryCustomMapper" >
+	<sql id="dictionary">t_dictionary</sql>
+	
+	<select id="selectNewsChannelDictionarys" parameterType="java.lang.String" resultType="com.puyixiaowo.tnews.dictionary.bean.DictionaryBean">
+		SELECT
+			news_channel_id as newsChannelId,
+			GROUP_CONCAT(value_dic) as valueDic
+		FROM
+			<include refid="dictionary" />
+		WHERE news_channel_id > 0
+		AND type_dic = #{typeDic, jdbcType=VARCHAR}
+		GROUP BY
+			news_channel_id
+	</select>
+</mapper>

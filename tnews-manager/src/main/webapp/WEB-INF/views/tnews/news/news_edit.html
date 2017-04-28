@@ -1,0 +1,77 @@
+<#assign base=request.contextPath />
+<div class="bjui-pageContent">
+<form action="${base}/news/edit/true" class="datagrid-edit-form" data-toggle="validate" data-data-type="jsonp">
+    
+    <input type="hidden" name="id" value="${(model.id)!}"/>
+    <input type="hidden" name="faceUrlKeys" value="${(model.faceUrlKeys)!}" id="hidden_news_edit_face_url_key"/>
+    
+    <div class="bjui-row col-2">
+    	<label class="row-label">封面</label>
+        <div class="row-input required">
+            <input type="file" data-name="faceUrl" data-toggle="webuploader" data-options="
+                {
+                    pick: {label: '点击选择图片'},
+                    server: '${base}/upload/images',
+                    fileNumLimit: 1,
+                    formData: {tag:'NEWS_FACE_PIC'},
+                    required: true,
+                    uploaded: '${(model.faceUrl)!}',
+                    basePath: '',
+                    accept: {
+                        title: '图片',
+                        extensions: 'jpg,jpeg,bmp,png',
+                        mimeTypes: '.jpg,.jpeg,.bmp,.png'
+                    },
+                    onUploadSuccess: function(file, result, $element) {
+                    	var key = result.data.key,
+                    		url = result.data.url;
+                    	$('#hidden_news_edit_face_url_key').val(key);
+                    }
+                }">
+        </div>
+        <br>
+        <label class="row-label">新闻标题</label>
+        <div class="row-input required">
+            <input type="text" name="title" value="${(model.title)!}" data-rule="required" >
+        </div>
+        <label class="row-label">来源</label>
+        <div class="row-input required">
+             <input type="text" name="source" value="${(model.source)!}" data-rule="required">
+        </div>
+        <label class="row-label">新闻频道</label>
+        <div class="row-input required">
+        	<select name="newsChannelId" data-toggle="selectpicker" data-rule="required">
+	            <option value="">请选择</option>
+	            <#list newsChannelList as newsChannel>
+	            	<option value="${(newsChannel.id)!}" ${(((model.newsChannelId)?? && model.newsChannelId == newsChannel.id))?string('selected','')}>${(newsChannel.channelName)!}</option>
+	            </#list>
+	        </select>
+        </div>
+        <br>
+        <label class="row-label">发布时间</label>
+        <div class="row-input required">
+             <input type="text" name="pubDate" value="${(model.pubDate)!}" data-toggle="datepicker" data-pattern="yyyy-MM-dd HH:mm:ss" data-rule="required">
+        </div>
+        <br>
+        <label class="row-label">内容</label>
+        <div class="row-input required">
+            <textarea name="html" id="news_edit_form_content" class="j-content" style="width: 800px;" data-toggle="kindeditor" data-minheight="200">${(model.html)!}</textarea>
+        </div>
+        <br>
+        <label class="row-label">状态</label>
+        <div class="row-input required">
+            <select name="status" data-toggle="selectpicker" data-rule="required" data-width="100%">
+                <option value="">请选择</option>
+                <option value="1" ${(((model.status)??) && (model.status == 1))?string('selected', '') }>有效</option>
+                <option value="0" ${(((model.status)??) && (model.status == 0))?string('selected', '') }>无效</option>
+            </select>
+        </div>
+    </div>
+</form>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+        <li><button type="submit" class="btn-default" data-icon="save">发布</button></li>
+    </ul>
+</div>

@@ -1,0 +1,58 @@
+<#assign base=request.contextPath />
+<div class="bjui-pageContent">
+    <table class="table table-bordered" id="datagrid_news_channel_list_filter" data-toggle="datagrid" data-options="{
+        height: '100%',
+        gridTitle : '新闻频道列表',
+        showToolbar: true,
+        toolbarItem: 'add,save,cancel,edit,del',
+        loadType: 'POST',
+        dataUrl: '${base}/news/channel/true',
+        dataType: 'json',
+        editUrl: '${base}/news/channel/edit/true',
+        delType: 'POST',
+        delUrl: '${base}/news/channel/delete',
+        delPK: 'id',
+        local: 'remote',
+        filterAll: true,
+        paging: {pageSize: 20,selectPageSize:'20,40,100'},
+        showCheckboxcol: true,
+        linenumberAll: true,
+        afterSave: function($trs, datas) {
+        	$trs.closest('table').datagrid('refresh', true);
+        },
+        toolbarCustom: function(){
+        	var url = '${base}/news/channel/setApiChannel/false';
+        	return newsChannel.btnSetApiChannel(url);
+        }
+    }">
+        <thead>
+            <tr>
+                <th data-options="{name:'id',align:'center',quickfilter:false,width: 45,add:false,edit:false}">ID</th>
+                <th data-options="{name:'channelName',align:'center'}">新闻频道名</th>
+                <th data-options="{name:'code',align:'center'}">新闻频道代码</th>
+                <th data-options="{
+                	name:'apiChannelIds',
+                	align:'center',
+                	quickfilter: false,
+                	quicksort: false,
+                	add: false,
+                	edit: false,
+                	attrs: {
+                		multiple: true
+                	},
+                	items: function(){
+                		return $.getJSON('${base}/api/channel/all/array');
+                	},
+                	itemattr: {
+                		value:'id',
+                		label:'channelName'
+                	}
+                }">关联接口频道</th>
+                <th data-options="{name:'createTime',align:'center',quickfilter:false,add:false,edit:false}">创建时间</th>
+                <th data-options="{name:'updateTime',align:'center',quickfilter:false,add:false,edit:false}">修改时间</th>
+                <th data-options="{name:'status',align:'center',width:160,type:'select',items:[{'1':'<font color=\'green\'>有效</font>'},{'0':'<font color=\'#ea2000\'>禁止登录</font>'}]}">状态</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<script type="text/javascript" src="${base}/js/tnews/news/channel/news_channel_list.js"></script>

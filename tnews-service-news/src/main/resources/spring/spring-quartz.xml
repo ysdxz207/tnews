@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+
+	<!-- 启动触发器的配置开始 -->
+	<bean name="startQuertz" lazy-init="false" autowire="no"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="syncNewsJobTrigger" />
+			</list>
+		</property>
+	</bean>
+	<!-- 启动触发器的配置结束 -->
+
+	<!-- quartz-2.x的配置 -->
+	<bean id="syncNewsJobTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="syncNewsJobTriggerDetail" />
+		</property>
+		<property name="cronExpression">
+			<!--<value>0 0/8 * * * ?</value>-->
+			<value>0 0/8 * * * ?</value>
+		</property>
+	</bean>
+	<!-- 调度的配置结束 -->
+
+	<!-- job的配置开始 -->
+	<bean id="syncNewsJobTriggerDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="newsBeanJob" />
+		</property>
+		<property name="targetMethod">
+			<value>doSyncNews</value>
+		</property>
+		<property name="concurrent">  
+	        <value>false</value><!-- 禁止并发 -->
+	    </property>
+	</bean>
+	<!-- job的配置结束 -->
+
+	<!-- 工作的bean -->
+	<bean id="newsBeanJob" class=" com.puyixiaowo.tnews.news.core.quartz.NewsBeanJob" />
+</beans>

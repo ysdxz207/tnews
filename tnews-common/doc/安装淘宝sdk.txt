@@ -1,0 +1,3 @@
+切换到tnews-common/lib目录下
+mvn install:install-file -Dfile=taobao-sdk-java-auto_1455552377940-20160607.jar -DgroupId=taobao-sdk -DartifactId=taobao-sdk-java-auto_1455552377940 -Dversion=20160607 -Dpackaging=jar
+mvn install:install-file -Dfile=taobao-sdk-java-auto_1455552377940-20160607-sources.jar -DgroupId=taobao-sdk -DartifactId=taobao-sdk-java-auto_1455552377940 -Dversion=20160607 -Dpackaging=jar -Dclassifier=sources

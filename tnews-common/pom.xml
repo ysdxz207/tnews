@@ -1,0 +1,323 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<!-- parent pom -->
+	<parent>
+		<groupId>com.puyixiaowo.tnews</groupId>
+		<artifactId>tnews-parent</artifactId>
+		<relativePath>../tnews-parent/pom.xml</relativePath>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>tnews-common</artifactId>
+	<packaging>jar</packaging>
+	<name>tnews-common</name>
+	<description>tnews-common</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+
+		<!-- commons start -->
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+		</dependency>
+		<!-- commons end -->
+
+		<!-- spring start -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jms</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.spring-crypto-utils</groupId>
+			<artifactId>spring-crypto-utils</artifactId>
+		</dependency>
+		<!-- spring end -->
+
+		<!-- fast json start -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>jsr311-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.aliyun.odps</groupId>
+			<artifactId>odps-sdk-udf</artifactId>
+		</dependency>
+		<!-- fast json end -->
+		<!-- mybatis start -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis.generator</groupId>
+			<artifactId>mybatis-generator-core</artifactId>
+		</dependency>
+		<!-- mybatis end -->
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+		<!-- servlet start -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+		</dependency>
+		<!-- servlet end -->
+
+		<!--Redis start -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
+		<!--Redis end -->
+
+		<!-- slf4j start -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
+
+		<!-- slf4j end -->
+		<!-- logback dependencies start -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-access</artifactId>
+		</dependency>
+		<!-- logback dependencies end -->
+
+		<!-- dubbo support start -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
+			<!-- 排除dubbo自带spring -->
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring</artifactId>
+				</exclusion>
+				<exclusion>
+					<artifactId>netty</artifactId>
+					<groupId>org.jboss.netty</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.netty</groupId>
+			<artifactId>netty</artifactId>
+		</dependency>
+
+		<!-- zookeeper client for test env -->
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-framework</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.101tec</groupId>
+			<artifactId>zkclient</artifactId>
+		</dependency>
+		<!-- dubbo support end -->
+
+		<!-- aspect start -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+		</dependency>
+		<!-- aspect end -->
+
+		<!-- validator start -->
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+		<!-- validator end -->
+
+		<!-- el expression start -->
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>javax.el-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>javax.el</artifactId>
+		</dependency>
+		<!-- el expression end -->
+		
+		<!-- 阿里大于 start -->
+		<dependency>
+			<groupId>taobao-sdk</groupId>
+			<artifactId>taobao-sdk-java-auto_1455552377940</artifactId>
+		</dependency>
+		<!-- 阿里大于 end -->
+
+		<!-- 通用mapper start -->
+		<dependency>
+			<groupId>tk.mybatis</groupId>
+			<artifactId>mapper</artifactId>
+		</dependency>
+		<!-- 通用mapper end -->
+
+		<!-- http访问 开始 -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+		</dependency>
+		<!-- http访问 结束 -->
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.6.1</version>
+					<configuration>
+						<skip>true</skip>
+						<source>1.8</source>
+						<target>1.8</target>
+					</configuration>
+				</plugin>
+				<!-- mybatis generator plugin -->
+				<plugin>
+					<groupId>org.mybatis.generator</groupId>
+					<artifactId>mybatis-generator-maven-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>Generate MyBatis Artifacts</id>
+							<goals>
+								<goal>generate</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<configurationFile>src/main/resources/mybatis/generator/generatorConfig-member.xml</configurationFile>
+						<verbose>true</verbose>
+						<overwrite>true</overwrite>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.mybatis.generator</groupId>
+							<artifactId>mybatis-generator-core</artifactId>
+							<version>${mybatis.generator.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>com.puyixiaowo</groupId>
+							<artifactId>mybatis-generator-plugin-extend</artifactId>
+							<version>${mybatis.generator.plugin.extend.version}</version>
+							<scope>system</scope>
+							<systemPath>${project.basedir}/lib/mybatis-generator-plugin-extend-1.0.0-SNAPSHOT.jar</systemPath>
+						</dependency>
+					</dependencies>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+</project>

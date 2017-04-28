@@ -1,0 +1,62 @@
+<#assign base=request.contextPath />
+<div class="bjui-pageContent">
+    <table class="table table-bordered" id="datagrid_menu_list_filter" data-toggle="datagrid" data-options="{
+        height: '100%',
+        tableWidth: '98%',
+        gridTitle : '菜单列表',
+        showToolbar: true,
+        toolbarItem: 'add,save,cancel,edit,del',
+        loadType: 'POST',
+        dataUrl: '${base}/menu/true',
+        dataType: 'json',
+        editUrl: '${base}/menu/edit/true',
+        delType: 'POST',
+        delUrl: '${base}/menu/delete',
+        delPK: 'id',
+        local: 'remote',
+        isTree: 'menuName',
+        treeOptions: {
+		    keys        : {
+		        key       : 'id',        // id
+		        parentKey : 'pid',       // 父id
+		        order     : 'sort',     // 顺序
+		        isExpand  : 'expand'   // 子列表是否展开
+		    },
+		    simpleData  : true,          // 是否简单数据(array格式)
+		    add         : true           // 显示添加按钮
+		},
+		dropOptions: {
+		    drop        : true,    // 拖动开关
+		    dropUrl     : '${base}/menu/edit/true',     // 拖动结束后，发送数据到该url
+		    paging      : false,     // 是否发送分页参数
+		    scope       : 'drop',   // 发送拖动数据范围，'drop' = '被拖动影响的数据'，'all' = '当前页全部数据'
+		    beforeDrag  : null,     // function($tr, data)，拖动前方法，返回false则不拖动
+		    beforeDrop  : null,     // function(sourceData, descData, position)，拖动到目标并放置之前方法，返回false则不放置，参数分别是：(源数据、目标数据、放置位置(append、before、after))
+		    afterDrop   : 'POST'    // string 或 function($descTr, $sourceTr)，如果是字符串并有dropUrl参数，则发送拖动数据到dropUrl，否则执行自定义方法
+		},
+		addLocation: 'last',
+		fieldSortable: false,
+		columnMenu: false,
+        filterAll: true,
+        paging: false,
+        showCheckboxcol: true,
+        linenumberAll: true,
+        afterSave: function($trs, datas) {
+        	$trs.closest('table').datagrid('refresh', true);
+        }
+    }">
+        <thead>
+            <tr>
+                <th data-options="{name:'menuName',align:'center',width:160}">菜单名</th>
+                <th data-options="{name:'icon',align:'center',quickfilter:false}">图标</th>
+                <th data-options="{name:'href',align:'center',quickfilter:false}">访问链接</th>
+                <th data-options="{name:'remark',align:'center'}">备注</th>
+                <th data-options="{name:'type',align:'center',type:'select',items:[{'1':'权限菜单','2':'新闻菜单'},{'3':'字典菜单'}]}">类型</th>
+                <th data-options="{name:'pid',align:'center'}">父级菜单ID</th>
+                <th data-options="{name:'code',align:'center'}">代码</th>
+                <th data-options="{name:'expand',align:'center',type:'select',items:[{'1':'展开','0':'不展开'}]}">是否展开</th>
+                <th data-options="{name:'status',align:'center',width:160,type:'select',items:[{'1':'<font color=\'green\'>有效</font>'},{'0':'<font color=\'#ea2000\'>未启用</font>'}]}">状态</th>
+            </tr>
+        </thead>
+    </table>
+</div>

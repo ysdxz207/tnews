@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.puyixiaowo.tnews.manager.persistence.MenuCustomMapper">
+
+	<sql id="menu">manager_menu</sql>
+	<sql id="managerPermission">manager_permission</sql>
+	<sql id="managerRolePermission">manager_role_permission</sql>
+	<sql id="conditions">
+		<where>
+			<if test="pid != null">
+				and pid = #{pid, jdbcType=INTEGER}
+			</if>
+			<if test="status != null">
+				and status = #{status, jdbcType=INTEGER}
+			</if>
+			<if test="type != null">
+				and type = #{type, jdbcType=INTEGER}
+			</if>
+			<if test="keyword != null">
+				and menu_name like CONCAT('%', #{keyword, jdbcType=INTEGER}, '%')
+			</if>
+		</where>
+	</sql>
+  	<resultMap id="menuMap" type="com.puyixiaowo.tnews.manager.bean.MenuBean">
+  		<id column="id" property="id" jdbcType="INTEGER" javaType="java.lang.Long"/>
+  		<result column="type" jdbcType="INTEGER" property="type" />
+		<collection property="menus" column="{pid=id}" select="selectNestedByType"/>
+	</resultMap>
+	
+  	<select id="selectNestedByType" parameterType="java.util.Map" resultMap="menuMap">
+		<if test="pid == null">
+			<bind name="pid" value="0"/>
+		</if>
+		<bind name="status" value="1"/>
+		select * from
+		<include refid="menu" />
+		<include refid="conditions" />
+		order by sort asc
+	</select>
+	
+	<select id="selectValidMenuPermissions" parameterType="java.lang.Long" resultType="com.puyixiaowo.tnews.manager.bean.other.MenuPermissionBean">
+		select * from (
+		(select CONCAT('m_', id) as id,menu_name, null as permission,CONCAT('m_', pid) AS pid, 0 as is_checked
+		from <include refid="menu" /> where `status`=1
+		) UNION (
+			select id,permission_name,permission,CONCAT('m_', menu_id) AS pid,IF(id in (
+		
+					select permission_id from
+					<include refid="managerPermission" /> mp
+					LEFT JOIN <include refid="managerRolePermission" /> mrp
+					on mp.id = mrp.permission_id
+					where mrp.role_id = #{roleId, jdbcType=INTEGER}
+				), true, false) as is_checked from <include refid="managerPermission" />)
+		
+		order by id asc
+		) t
+	</select>
+	
+	
+</mapper>

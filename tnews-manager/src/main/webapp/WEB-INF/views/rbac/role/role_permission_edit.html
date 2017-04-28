@@ -1,0 +1,25 @@
+<#assign base=request.contextPath />
+<div class="bjui-pageContent">
+<form action="${base}/role/setPermission/true"
+	class="datagrid-edit-form" data-toggle="validate"
+	data-data-type="jsonp">
+	<input type="hidden" name="roleId" value="${model.id!}" />
+	<input type="hidden" name="permissionIds" id="hidden_role_permission_edit_permissions"/>
+	<div>
+		<label class="row-label">赋予角色[<font color="#ea2000">${(model.roleName)!}</font>]权限</label>
+		<ul id="role_permission_ztree" class="ztree" data-toggle="ztree" data-expand-all="true" data-check-enable="true" data-on-check="role.ztreeChecked" data-on-click="">
+	        <#if (((menuList)??) && (((menuList)?size) > 0))>
+       			<#list menuList as menu>
+       				<li data-id="${menu.id!}" data-name="json" data-pid="${menu.pid}" data-checked="${menu.isChecked?string('true','false')}">${menu.menuName!}</li>
+       			</#list>
+       		</#if>
+    	</ul>
+	</div>
+</form>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+        <li><button type="submit" class="btn-default" data-icon="save">保存</button></li>
+    </ul>
+</div>

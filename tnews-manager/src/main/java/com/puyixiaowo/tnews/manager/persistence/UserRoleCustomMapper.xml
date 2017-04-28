@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.puyixiaowo.tnews.manager.persistence.UserRoleCustomMapper">
+  	<sql id="userRole">manager_user_role</sql>
+  	<sql id="rolePermission">manager_role_permission</sql>
+  	<sql id="permission">manager_permission</sql>
+  	
+  	<select id="selectPermissionByUserId" resultType="java.lang.String">
+		select permission
+  		from <include refid="userRole"/> ur
+  		left join <include refid="rolePermission" /> as rp 
+  		on rp.role_id = ur.role_id 
+  		left join <include refid="permission" /> p on p.id= rp.permission_id 
+  		where ur.user_id=#{userId, jdbcType=INTEGER}
+	</select>
+</mapper>

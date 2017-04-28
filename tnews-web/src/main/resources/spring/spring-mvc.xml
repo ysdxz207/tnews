@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:crypt="http://springcryptoutils.com/schema/crypt"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+
+
+
+
+     http://springcryptoutils.com/schema/crypt
+     http://springcryptoutils.com/schema/crypt.xsd
+     http://www.springframework.org/schema/mvc
+	 http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd">
+
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <!-- 返回成String 时的编码方式 -->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8"/>
+                <property name="writeAcceptCharset" value="false"></property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!-- 采用注释的方式配置bean -->
+    <context:annotation-config/>
+    <!-- 配置要扫描的包 -->
+    <context:component-scan base-package="com.puyixiaowo.tnews.web">
+        <context:include-filter type="annotation"
+                                expression="org.springframework.stereotype.Service"/>
+    </context:component-scan>
+    <context:component-scan base-package="com.puyixiaowo.tnews.web">
+        <context:include-filter type="annotation"
+                                expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <bean class="com.puyixiaowo.tnews.web.util.ApplicationContextUtil"></bean>
+
+    <!-- 上传文件拦截，设置最大上传文件大小 10M=10*1024*1024(B)=10485760 bytes -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10485760"/>
+    </bean>
+    <crypt:symmetricCipherer id="encrypter"
+                             keyAlgorithm="DESede" cipherAlgorithm="DESede/CBC/PKCS5Padding"
+                             provider="BC" mode="ENCRYPT"/>
+    <crypt:symmetricCipherer id="decrypter"
+                             keyAlgorithm="DESede" cipherAlgorithm="DESede/CBC/PKCS5Padding"
+                             provider="BC" mode="DECRYPT"/>
+</beans>

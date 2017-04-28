@@ -1,0 +1,40 @@
+<#assign base=request.contextPath />
+<div class="bjui-pageContent">
+<form action="${base}/user/edit/true" class="datagrid-edit-form" data-toggle="validate" data-data-type="jsonp">
+    <input type="hidden" name="id" value="${model.id!}"/>
+    <div class="bjui-row col-1">
+        <label class="row-label">登录名</label>
+        <div class="row-input required">
+            <input type="text" name="loginname" value="${(model.loginname)!}" ${((model.id)??)?string('readonly','')} >
+        </div>
+        <label class="row-label">昵称</label>
+        <div class="row-input required">
+            <input type="text" name="nickname" value="${(model.nickname)!}" data-rule="required">
+        </div>
+        <label class="row-label">密码</label>
+        <div class="row-input required">
+            <input type="password" id="user_password" name="password" data-rule="required">
+        </div>
+        <label class="row-label">重复密码</label>
+        <div class="row-input required">
+            <input type="password" equalto="#user_password" data-rule="required">
+        </div>
+        <label class="row-label">状态</label>
+        <div class="row-input required">
+            <select name="status" data-toggle="selectpicker" data-rule="required" data-width="100%">
+                <option value="">请选择</option>
+                <option value="1" ${(((model.status)??) && (model.status == 1))?string('selected', '') }>有效</option>
+                <option value="0" ${(((model.status)??) && (model.status == 0))?string('selected', '') }>禁止登录</option>
+            </select>
+        </div>
+
+    </div>
+</form>
+</div>
+
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+        <li><button type="submit" class="btn-default" data-icon="save">保存</button></li>
+    </ul>
+</div>

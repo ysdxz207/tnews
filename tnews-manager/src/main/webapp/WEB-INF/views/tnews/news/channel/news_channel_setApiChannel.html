@@ -1,0 +1,58 @@
+<#assign base=request.contextPath />
+<div class="bjui-pageContent">
+<form action="${base}/news/channel/setApiChannel/true" 
+	class="datagrid-edit-form" data-toggle="ajaxform" 
+	data-data-type="jsonp" data-options="{
+	
+		okCallback: function(json, options){
+			//关闭标签页
+			BJUI.navtab('closeTab', 'news_channel_setApichannel_navTab')
+			
+			//刷新列表
+			$('#datagrid_news_channel_list_filter').datagrid('refresh', true);
+		}
+	}">
+    
+    <input type="hidden" name="newsChannelId" value="${(model.id)!}"/>
+    <input type="hidden" name="apiChannelIds" value="${(model.apiChannelIds)!}"/>
+    
+    <div class="bjui-row col-2">
+        <label class="row-label">新闻频道</label>
+        <div class="row-input">
+        	${(model.channelName)!}
+        </div>
+        <br/>
+        <label class="row-label">关联接口频道</label>
+        <div class="row-input required">
+        
+        <input type="text" name="channelName" readonly="readonly"
+        value="${(model.apiChannelNames)!}" data-toggle="findgrid" 
+        data-rule="required" 
+        data-options="{
+            pk: 'id',
+            include: 'apiChannelIds:id, channelName',
+            dialogOptions: {title:'关联接口频道'},
+            multiple: true,
+            oldData: newsChannel.getOldData('${(model.apiChannelIds)!}'),
+            gridOptions: {
+                local: 'remote',
+                dataUrl: '${base}/api/channel/true',
+                paging: {pageSize: 100},
+                columns: [
+                    {name:'id', label:'ID', align: 'center', quickfilter: false, width:100},
+                    {name:'channelName', label:'接口频道名', align: 'center',},
+                    {name:'channelId', label:'接口频道ID', align: 'center'}
+                ]
+            }
+        }" placeholder="点放大镜按钮查找" >
+        </div>
+    </div>
+</form>
+</div>
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+        <li><button type="submit" class="btn-default" data-icon="save">保存</button></li>
+    </ul>
+</div>
+<script type="text/javascript" src="${base}/js/tnews/news/channel/news_channel_list.js"></script>

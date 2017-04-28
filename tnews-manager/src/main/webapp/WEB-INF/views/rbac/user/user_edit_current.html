@@ -1,0 +1,23 @@
+<#assign base=request.contextPath />
+<div class="bjui-pageContent">
+<form action="${base}/user/edit/true" class="datagrid-edit-form" data-toggle="validate" data-data-type="jsonp">
+    <input type="hidden" name="id" value="${model.id!}"/>
+    <div class="bjui-row col-1">
+        <label class="row-label">登录名</label>
+        <div class="row-input required">
+            <input type="text" name="loginname" value="${(model.loginname)!}" ${((model.id)??)?string('readonly','')} >
+        </div>
+        <label class="row-label">昵称</label>
+        <div class="row-input required">
+            <input type="text" name="nickname" value="${(model.nickname)!}" data-rule="required">
+        </div>
+    </div>
+</form>
+</div>
+
+<div class="bjui-pageFooter">
+    <ul>
+        <li><button type="button" class="btn-close" data-icon="close">取消</button></li>
+        <li><button type="submit" class="btn-default" data-icon="save">保存</button></li>
+    </ul>
+</div>

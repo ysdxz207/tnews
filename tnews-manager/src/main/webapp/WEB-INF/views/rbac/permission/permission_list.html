@@ -1,0 +1,33 @@
+<#assign base=request.contextPath />
+<div class="bjui-pageContent">
+    <table class="table table-bordered" id="datagrid_permission_list_filter" data-toggle="datagrid" data-options="{
+        height: '100%',
+        gridTitle : '角色列表',
+        showToolbar: true,
+        toolbarItem: 'add,save,cancel,edit,del',
+        loadType: 'POST',
+        dataUrl: '${base}/permission/true',
+        dataType: 'json',
+        editUrl: '${base}/permission/edit/true',
+        delType: 'POST',
+        delUrl: '${base}/permission/delete',
+        delPK: 'id',
+        local: 'remote',
+        filterAll: true,
+        paging: {pageSize: 20,selectPageSize:'20,40,100'},
+        showCheckboxcol: true,
+        linenumberAll: true,
+        afterSave: function($trs, datas) {
+        	$trs.closest('table').datagrid('refresh', true);
+        }
+    }">
+        <thead>
+            <tr>
+                <th data-options="{name:'id',align:'center',quickfilter:false,width: 45,add:false,edit:false}">ID</th>
+                <th data-options="{name:'menuId',align:'center',width: 120,type:'select',items: function() {return $.getJSON('${base}/menu/all/array')},itemattr: {value:'id',label:'menuName'}}">菜单</th>
+                <th data-options="{name:'permissionName',align:'center',width: 120}">权限名</th>
+                <th data-options="{name:'permission',align:'center',width: 280}">权限标识</th>
+            </tr>
+        </thead>
+    </table>
+</div>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.puyixiaowo.tnews.manager.persistence.UserCustomMapper">
+  
+  <sql id="managerUser">manager_user</sql>
+  <sql id="managerRole">manager_role</sql>
+  <sql id="managerUserRole">manager_user_role</sql>
+  <sql id="conditions">
+ 	<where>
+  		<if test="loginname != null">
+  			and loginname = #{loginname, jdbcType=VARCHAR}
+  		</if>
+  		<if test="nickname != null">
+  			and nickname = #{nickname, jdbcType=VARCHAR}
+  		</if>
+  		<if test="status != null">
+  			and status = #{status, jdbcType=INTEGER}
+  		</if>
+  		<if test="roleId != null">
+  			and role_id = #{roleId, jdbcType=INTEGER}
+  		</if>
+ 	</where>
+  </sql>
+  <sql id="orderBy">
+  	<choose>
+  		<when test="orderBy != null">
+  			order by #{orderBy, jdbcType=VARCHAR}
+  		</when>
+  		<otherwise>
+  			order by id desc
+  		</otherwise>
+  	</choose>
+  </sql>
+  <sql id="rowBounds">
+  	<if test="rowBounds != null">
+  		limit #{rowBounds.offset, jdbcType=INTEGER}, #{rowBounds.limit, jdbcType=INTEGER}
+  	</if>
+  </sql>
+  
+  <select id="selectListWithRoleByParams" parameterType="java.util.Map" 
+  resultType="com.puyixiaowo.tnews.manager.bean.UserBean">
+  	select 
+  	u.id as id,
+  	u.loginname,
+  	u.nickname,
+  	u.create_time,
+  	u.last_login_time,
+  	u.status,
+  	r.id as roleId, r.role_name as roleName from
+  	<include refid="managerUser"/> u
+  	left join
+  	<include refid="managerUserRole"/> ur
+  	on u.id = ur.user_id
+  	left join
+  	<include refid="managerRole"/> r
+  	on ur.role_id = r.id
+  	<include refid="conditions"/>
+  	<include refid="orderBy"/>
+  	<include refid="rowBounds"/>
+  </select>
+  
+  <select id="selectCountByParams" parameterType="java.util.Map" 
+  resultType="int">
+  	select count(*) from
+  	<include refid="managerUser"/> u
+  	left join
+  	<include refid="managerUserRole"/> ur
+  	on u.id = ur.user_id
+  	left join
+  	<include refid="managerRole"/> r
+  	on ur.role_id = r.id
+  	<include refid="conditions"/>
+  </select>
+  
+</mapper>

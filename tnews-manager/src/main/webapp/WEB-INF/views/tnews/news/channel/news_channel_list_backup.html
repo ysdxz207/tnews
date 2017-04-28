@@ -1,0 +1,70 @@
+<#assign base=request.contextPath />
+<div class="bjui-pageContent">
+    <table class="table table-bordered" id="datagrid_news_channel_list_filter" data-toggle="datagrid" data-options="{
+        height: '100%',
+        gridTitle : '新闻频道列表',
+        showToolbar: true,
+        toolbarItem: 'add,save,cancel,edit,del',
+        loadType: 'POST',
+        dataUrl: '${base}/news/channel/true',
+        dataType: 'json',
+        editUrl: '${base}/news/channel/edit/true',
+        delType: 'POST',
+        delUrl: '${base}/news/channel/delete',
+        delPK: 'id',
+        local: 'remote',
+        filterAll: true,
+        paging: {pageSize: 20,selectPageSize:'20,40,100'},
+        showCheckboxcol: true,
+        linenumberAll: true,
+        afterSave: function($trs, datas) {
+        	$trs.closest('table').datagrid('refresh', true);
+        }
+    }">
+        <thead>
+            <tr>
+                <th data-options="{name:'id',align:'center',quickfilter:false,width: 45,add:false,edit:false}">ID</th>
+                <th data-options="{name:'channelName',align:'center'}">新闻频道名</th>
+                <th data-options="{
+                	name:'apiChannelIds',
+                	align:'center',
+                	type:'findgrid',
+                	attrs:{
+                		'data-options':{
+                			pk:'id',
+                			oldData:getValue(this),
+                			multiple: true,
+                			empty: false,
+                			append: false,
+                			include:'id,apiChannelIds',
+                			dialogOptions:{
+		                		id:'api_channel_list_findgrid',
+		                		title:'关联接口频道'
+		                	},
+                			gridOptions:{
+		                		local:'remote',
+		                		dataUrl:'${base}/api/channel/true',
+		                		columns:[
+		                			{name:'id',label:'ID',align:'center',width:44},
+		                			{name:'channelName',align:'center',label:'接口名称'},
+		                			{name:'channelId',align:'center',label:'接口频道ID'}
+		                		]
+		                	},
+		                	onSelect:'newsChannel.selectDone'
+                		}
+                	}
+                }">关联接口频道</th>
+                <th data-options="{name:'createDate',align:'center',edit:false}">创建时间</th>
+                <th data-options="{name:'updateDate',align:'center',edit:false}">修改时间</th>
+                <th data-options="{name:'status',align:'center',width:160,type:'select',items:[{'1':'<font color=\'green\'>有效</font>'},{'0':'<font color=\'#ea2000\'>禁止登录</font>'}]}">状态</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<script>
+	function getValue(obj){
+		
+		return 1;
+	}
+</script>
+<script type="text/javascript" src="${base}/js/tnews/news/channel/news_channel_list.js"></script>

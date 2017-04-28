@@ -1,0 +1,35 @@
+<#assign base=request.contextPath />
+<div class="bjui-pageContent">
+    <table class="table table-bordered" id="datagrid_news_channel_list_filter" data-toggle="datagrid" data-options="{
+        height: '100%',
+        gridTitle : '接口频道列表',
+        showToolbar: true,
+        toolbarItem: 'add,save,cancel,edit,del',
+        loadType: 'POST',
+        dataUrl: '${base}/api/channel/true',
+        dataType: 'json',
+        editUrl: '${base}/api/channel/edit/true',
+        delType: 'POST',
+        delUrl: '${base}/api/channel/delete',
+        delPK: 'id',
+        local: 'remote',
+        filterAll: true,
+        paging: {pageSize: 20,selectPageSize:'20,40,100'},
+        showCheckboxcol: true,
+        linenumberAll: true,
+        afterSave: function($trs, datas) {
+        	$trs.closest('table').datagrid('refresh', true);
+        }
+    }">
+        <thead>
+            <tr>
+                <th data-options="{name:'id',align:'center',quickfilter:false,width: 45,add:false,edit:false}">ID</th>
+                <th data-options="{name:'channelId',align:'center',width: 120}">接口频道ID</th>
+                <th data-options="{name:'channelName',align:'center',width: 120}">接口频道名</th>
+                <th data-options="{name:'createTime',align:'center',width: 120,quickfilter:false}">创建时间</th>
+                <th data-options="{name:'updateTime',align:'center',width: 120,quickfilter:false}">修改时间</th>
+                <th data-options="{name:'status',align:'center',width:160,type:'select',items:[{'1':'<font color=\'green\'>有效</font>'},{'0':'<font color=\'#ea2000\'>禁止登录</font>'}]}">状态</th>
+            </tr>
+        </thead>
+    </table>
+</div>

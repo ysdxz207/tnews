@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://code.alibabatech.com/schema/dubbo
+		http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="tnews-service-member"/>
+
+    <!-- <dubbo:registry group="puyixiaowo" protocol="zookeeper" address="${dubbo.registry.address}" />-->
+    <dubbo:registry address="N/A"/>
+
+    <dubbo:protocol name="dubbo" port="20887"/>
+
+    <!-- 用户服务接口 -->
+    <dubbo:service interface="com.puyixiaowo.tnews.member.service.MemberService" ref="memberService"/>
+    <!-- 用户收藏服务接口 -->
+    <dubbo:service interface="com.puyixiaowo.tnews.member.service.MemberFavoriteService" ref="memberFavoriteService"/>
+
+</beans>

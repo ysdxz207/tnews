@@ -1,0 +1,18 @@
+<#assign base=request.contextPath />
+<style>
+.news-detial-content img{
+	width: 337px;
+}
+.news-detial-content {
+	padding-bottom: 30px;
+}
+</style>
+<div class="news-detial-content">
+	<h4>
+		<strong>${(model.title)!}</strong>
+	</h4>
+	<p>${(model.source)!}</p>
+	<p>${(model.pubDate)!}</p>
+	<br />
+	<div class="row-input">${(model.html)!}</div>
+</div>

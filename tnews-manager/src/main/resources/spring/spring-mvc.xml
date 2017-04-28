@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:crypt="http://springcryptoutils.com/schema/crypt"
+	   xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+
+
+
+
+     http://springcryptoutils.com/schema/crypt
+     http://springcryptoutils.com/schema/crypt.xsd
+     http://www.springframework.org/schema/mvc
+	 http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd">
+
+	<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="true">
+			<!-- 返回成String 时的编码方式 -->
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<constructor-arg value="UTF-8" />
+				<property name="writeAcceptCharset" value="false"></property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<!-- 采用注释的方式配置bean -->
+	<context:annotation-config />
+	<!-- 配置要扫描的包 -->
+	<context:component-scan base-package="com.puyixiaowo.tnews.manager">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+	<context:component-scan base-package="com.puyixiaowo.tnews.manager">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	
+	<!-- 视图解释类 -->  
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    	<property name="viewClass"><value>org.springframework.web.servlet.view.JstlView</value></property>
+    	<!-- 在ModelAndView的view前 增加 value值 -->
+    	<property name="prefix" value=""></property>
+    	<!-- 在ModelAndView的view后 增加 value值 -->
+    	<property name="suffix" value=".html"></property>
+    	<property name="contentType" value="text/html; charset=UTF-8"/>  
+    	<property name="order" value="1" />
+    </bean>
+	
+	<!-- 配置freeMarker的模板路径 -->  
+    <bean id="freemarkerConfigurer"  class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">  
+        <property name="templateLoaderPath" value="/WEB-INF/views/"/>   
+        <property name="defaultEncoding" value="UTF-8" />  
+        <property name="freemarkerSettings">  
+            <props>  
+                <prop key="template_update_delay">20</prop>  
+                <prop key="locale">zh_CN</prop>  
+                <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>  
+                <prop key="date_format">yyyy-MM-dd</prop>  
+                <prop key="number_format">#.##</prop>  
+            </props>  
+        </property>  
+    </bean>    
+    
+    <!-- freemarker视图解释类 -->  
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">  
+        <!-- 已经默认加入 /WEB-INF/views/ -->
+        <property name="prefix" value=""/>  
+        <property name="suffix" value=".html"/>
+        <property name="contentType" value="text/html; charset=UTF-8"/>  
+        <property name="order" value="0" />
+        <property name="requestContextAttribute" value="request" />
+    </bean>  
+	<!-- 对静态资源文件的访问：匹配URL /static_resources/image/** 的URL被当做静态资源，由Spring读出到内存中再响应http -->
+	<!-- 分发后，映射到ResourceHttpRequestHandler进行处理 -->
+	<mvc:resources mapping="/images/**" location="/WEB-INF/static_resources/images/" />
+	<mvc:resources mapping="/css/**" location="/WEB-INF/static_resources/css/" />
+	<mvc:resources mapping="/js/**" location="/WEB-INF/static_resources/js/" />
+	<mvc:resources mapping="/themes/**" location="/WEB-INF/static_resources/themes/" />
+	<mvc:resources mapping="/fonts/**" location="/WEB-INF/static_resources/fonts/" />
+	<mvc:resources mapping="/plugins/**" location="/WEB-INF/static_resources/plugins/" />
+	<mvc:resources mapping="/other/**" location="/WEB-INF/static_resources/other/" />
+	<mvc:resources mapping="/xml/**" location="/WEB-INF/static_resources/xml/" />
+	<mvc:resources mapping="/lib/**" location="/WEB-INF/static_resources/lib/" />
+	<mvc:resources mapping="/doc/**" location="/WEB-INF/static_resources/doc/" />
+	<mvc:resources mapping="/assets/**" location="/WEB-INF/static_resources/assets/" />
+
+	<!-- 对静态资源文件的访问：使用默认的Servlet来响应静态文件 -->
+	<mvc:default-servlet-handler />
+
+	<!-- 上传文件拦截，设置最大上传文件大小 10M=10*1024*1024(B)=10485760 bytes -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10485760" />
+	</bean>
+	<crypt:symmetricCipherer id="encrypter"
+		keyAlgorithm="DESede" cipherAlgorithm="DESede/CBC/PKCS5Padding"
+		provider="BC" mode="ENCRYPT" />
+	<crypt:symmetricCipherer id="decrypter"
+		keyAlgorithm="DESede" cipherAlgorithm="DESede/CBC/PKCS5Padding"
+		provider="BC" mode="DECRYPT" />
+	<bean id="exceptionResolver" class="com.puyixiaowo.tnews.manager.core.ExceptionHandler"/>  
+	
+	<!-- 第一步: 自定义接收参数日期转换器 -->
+	<bean id="dateConvert" class="com.puyixiaowo.tnews.manager.core.converter.DateConvert"/>
+
+	<!-- 第二步： 创建convertion-Service ，并注入dateConvert-->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <ref bean="dateConvert"/>
+            </set>
+        </property>
+    </bean>
+    <!-- 第三步：注册处理器映射器/处理器适配器 ，添加conversion-service属性-->
+    <mvc:annotation-driven conversion-service="conversionService"/>
+    
+    <!-- 验证码配置 start -->
+    <bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
+		<property name="config">
+			<bean class="com.google.code.kaptcha.util.Config">
+				<constructor-arg>
+					<props>
+						<prop key="kaptcha.border">yes</prop>
+						<prop key="kaptcha.border.color">194,231,252</prop>
+						<prop key="kaptcha.textproducer.font.color">56,175,243</prop>
+						<prop key="kaptcha.image.width">150</prop>
+						<prop key="kaptcha.image.height">35</prop>
+						<prop key="kaptcha.textproducer.font.size">30</prop>
+						<prop key="kaptcha.noise.color">84,177,84</prop>
+						<prop key="kaptcha.background.clear.from">167,219,250</prop>
+						<prop key="kaptcha.background.clear.to">white</prop>
+						<prop key="kaptcha.session.key">KAPTCHA_SESSION_KEY</prop>
+						<prop key="kaptcha.textproducer.char.length">4</prop>
+						<prop key="kaptcha.obscurificator.impl">com.google.code.kaptcha.impl.ShadowGimpy</prop>
+					</props>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	<!-- 验证码配置 end -->
+</beans>

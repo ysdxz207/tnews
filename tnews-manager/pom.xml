@@ -1,0 +1,196 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<!-- parent pom -->
+	<parent>
+		<groupId>com.puyixiaowo.tnews</groupId>
+		<artifactId>tnews-parent</artifactId>
+		<relativePath>../tnews-parent/pom.xml</relativePath>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.puyixiaowo</groupId>
+	<artifactId>tnews-manager</artifactId>
+	<packaging>war</packaging>
+	<name>tnews-manager</name>
+	<description>tnews-manager</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.puyixiaowo.tnews</groupId>
+			<artifactId>tnews-interface-news</artifactId>
+			<version>${tnews-interface-news.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.puyixiaowo.tnews</groupId>
+			<artifactId>tnews-interface-dictionary</artifactId>
+			<version>${tnews-interface-dictionary.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.puyixiaowo.tnews</groupId>
+			<artifactId>tnews-interface-member</artifactId>
+			<version>${tnews-interface-member.version}</version>
+		</dependency>
+		
+		<!-- druid连接池 -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+		</dependency>
+
+		<!--Apache Shiro所需的jar包 -->
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-all</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-quartz</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+		</dependency>
+		<!-- shiro end -->
+		<!--spring session start -->
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session</artifactId>
+		</dependency>
+		<!-- spring session end -->
+
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker-gae</artifactId>
+		</dependency>
+
+		<!-- 七牛云存储 start -->
+		<dependency>
+			<groupId>com.qiniu</groupId>
+			<artifactId>qiniu-java-sdk</artifactId>
+		</dependency>
+		<!-- 七牛云存储 end -->
+
+		<!-- Mybatis分页插件 - PageHelper start -->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+		</dependency>
+		<!-- Mybatis分页插件 - PageHelper end -->
+
+		<!-- 通用mapper start -->
+		<dependency>
+			<groupId>tk.mybatis</groupId>
+			<artifactId>mapper</artifactId>
+		</dependency>
+		<!-- 通用mapper end -->
+		
+		<!-- kaptcha start -->
+		<dependency>
+		    <groupId>com.github.penggle</groupId>
+		    <artifactId>kaptcha</artifactId>
+		</dependency>
+
+		<!-- kaptcha end -->
+	</dependencies>
+
+
+	<build>
+		<finalName>tnews-manager</finalName>
+		<resources>
+			<resource>
+				<targetPath>${project.build.directory}/classes</targetPath>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*.xml</include>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+			<resource>
+				<targetPath>${project.build.directory}/classes</targetPath>
+				<directory>src/main/java</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*.xml</include>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+			<!-- 结合dubbo com.alibaba.dubbo.container.Main -->
+			<resource>
+				<targetPath>${project.build.directory}/classes/META-INF/spring</targetPath>
+				<directory>src/main/resources/spring</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>spring-context.xml</include>
+				</includes>
+			</resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-surefire-plugin</artifactId>
+			    <version>2.5</version>
+			    <configuration>
+			        <skip>true</skip><!-- 跳过测试 -->
+			    </configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
