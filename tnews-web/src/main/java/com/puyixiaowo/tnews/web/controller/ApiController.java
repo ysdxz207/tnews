@@ -60,20 +60,20 @@ public class ApiController extends BaseAction {
 
         if (StringUtils.isEmpty(content)) {
             ResponseBean rb = new ResponseBean();
-            rb.error("请求报文格式不正确，包含特殊字符,get请求请做URL编码！");
+            rb.errorMessage("请求报文格式不正确，包含特殊字符,get请求请做URL编码！");
             return JSONObject.toJSONString(rb);
         }
         // 封装json报文为实体
         try {
             requestBean = DataUtil.parse(decodeContent, RequestBean.class);
         } catch (Exception e) {
-            return new ResponseBean().error(e.getMessage());
+            return new ResponseBean().errorMessage(e.getMessage());
         }
         // 检查是否有参数
         if (null == requestBean) {
             // LogUtil.error("请求参数不能为空!");
             return JSONObject.toJSONString(
-                    new ResponseBean().error("请求参数不能为空"));
+                    new ResponseBean().errorMessage("请求参数不能为空"));
         }
 
         //
@@ -86,7 +86,7 @@ public class ApiController extends BaseAction {
         BaseAction baseController = ApplicationContextUtil.getBean(requestBean.getAction(), BaseAction.class);
 
         if (baseController == null) {
-            return new ResponseBean().error("can not find action:" + requestBean.getAction()).serialize();
+            return new ResponseBean().errorMessage("can not find action:" + requestBean.getAction()).serialize();
         }
 
         Method m = null;
@@ -97,7 +97,7 @@ public class ApiController extends BaseAction {
                     HttpServletResponse.class, RequestBean.class);
             result = m.invoke(baseController, request, response, requestBean);
         } catch (Exception e) {
-            return new ResponseBean().error(e.getMessage()).serialize();
+            return new ResponseBean().errorMessage(e.getMessage()).serialize();
         }
 
         return result;

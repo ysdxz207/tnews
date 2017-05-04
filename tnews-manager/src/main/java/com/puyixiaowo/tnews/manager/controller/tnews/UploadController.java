@@ -49,7 +49,7 @@ public class UploadController extends BaseController{
 			json.put("url", QiniuUtils.getFileAccessUrl(key));
 			responseBean.setData(json);
 		} catch (Exception e) {
-			responseBean.error(e.getMessage());
+			responseBean.error(e);
 		}
 		return responseBean.serialize();
 	}

@@ -1,15 +1,15 @@
 package com.puyixiaowo.tnews.news.bean;
 
-import java.io.Serializable;
-import java.util.Date;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.puyixiaowo.tnews.annotation.ReqNotEmpty;
+import com.puyixiaowo.tnews.bean.BaseBean;
+import com.puyixiaowo.tnews.common.utils.CustomDateTimeSerializer;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import com.alibaba.fastjson.annotation.JSONField;
-import com.puyixiaowo.tnews.bean.BaseBean;
-import com.puyixiaowo.tnews.common.utils.CustomDateTimeSerializer;
+import java.io.Serializable;
+import java.util.Date;
 
 @Table(name = "t_news")
 public class NewsBean extends BaseBean implements Serializable {
@@ -29,6 +29,7 @@ public class NewsBean extends BaseBean implements Serializable {
 	private String faceUrl;
 	private String description;
 	private String channelId;
+	@ReqNotEmpty
 	private Long newsChannelId;
 	private String channelName;
 	private String link;

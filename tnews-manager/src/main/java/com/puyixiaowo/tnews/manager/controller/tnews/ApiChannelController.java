@@ -3,11 +3,11 @@
  */
 package com.puyixiaowo.tnews.manager.controller.tnews;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.puyixiaowo.tnews.bean.PageBean;
+import com.puyixiaowo.tnews.manager.constants.RoutesNews;
+import com.puyixiaowo.tnews.manager.controller.BaseController;
+import com.puyixiaowo.tnews.news.bean.ApiChannelBean;
+import com.puyixiaowo.tnews.news.service.ApiChannelService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,11 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.puyixiaowo.tnews.bean.PageBean;
-import com.puyixiaowo.tnews.manager.constants.RoutesNews;
-import com.puyixiaowo.tnews.manager.controller.BaseController;
-import com.puyixiaowo.tnews.news.bean.ApiChannelBean;
-import com.puyixiaowo.tnews.news.service.ApiChannelService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 接口频道
@@ -56,7 +54,7 @@ public class ApiChannelController extends BaseController{
 			pageBean.setList(list);
 			pageBean.setTotalCount(apiChannelService.selectCountByExample(apiChannelBean));
 		} catch (Exception e) {
-			pageBean.error(e.getMessage());
+			pageBean.error(e);
 		}
 
 		return pageBean.serialize();

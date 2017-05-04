@@ -39,4 +39,14 @@ public class StringUtils {
 		int n = stringContainsNumFromList(inputStr, items);
 		System.out.println(n);
 	}
+
+	public static boolean isEmpty(Object object) {
+
+		if (object instanceof String) {
+			return object == null | org.apache.commons.lang.StringUtils.isBlank(object.toString());
+		}
+
+		return object == null;
+	}
+
 }

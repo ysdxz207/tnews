@@ -65,7 +65,7 @@ public class UserController extends BaseController {
 			pageBean.setList(list);
 			pageBean.setTotalCount(userService.selectCountByParams(params));
 		} catch (Exception e) {
-			pageBean.error(e.getMessage());
+			pageBean.errorMessage(e.getMessage());
 		}
 		return pageBean.serialize();
 	}
@@ -89,7 +89,7 @@ public class UserController extends BaseController {
 				}
 				userService.insertOrUpdateSelective(json);
 			} catch (RuntimeException e) {
-				responseBean.error(e.getMessage());
+				responseBean.error(e);
 			}
 			return responseBean;
 		}
@@ -123,7 +123,7 @@ public class UserController extends BaseController {
 		try {
 			userService.delete(id);
 		} catch (RuntimeException e) {
-			responseBean.error(e.getMessage());
+			responseBean.error(e);
 		}
 		return responseBean;
 	}

@@ -69,7 +69,7 @@ public class PermissionController extends BaseController{
 			pageBean.setList(list);
 			pageBean.setTotalCount(permissionService.selectCountByExample(example));
 		} catch (RuntimeException e) {
-			pageBean.error(e.getMessage());
+			pageBean.errorMessage(e.getMessage());
 		}
 
 		return pageBean.serialize();
@@ -85,7 +85,7 @@ public class PermissionController extends BaseController{
 			try {
 				permissionService.insertOrUpdateSelective(json);
 			} catch (RuntimeException e) {
-				responseBean.error(e.getMessage());
+				responseBean.error(e);
 			}
 			return responseBean;
 		}
@@ -103,7 +103,7 @@ public class PermissionController extends BaseController{
 		try {
 			permissionService.delete(id);
 		} catch (RuntimeException e) {
-			responseBean.error(e.getMessage());
+			responseBean.error(e);
 		}
 		return responseBean;
 	}

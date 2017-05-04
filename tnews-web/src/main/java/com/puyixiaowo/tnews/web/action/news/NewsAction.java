@@ -35,14 +35,14 @@ public class NewsAction extends BaseAction {
 
 		try {
 			pageBean = requestBean.toPageBean();
-			NewsBean newsBean = requestBean.toEntity(NewsBean.class);
+			NewsBean newsBean = requestBean.toEntity(NewsBean.class, true);
 			newsBean.setStatus(1);//有效新闻
 			pageBean.setList(newsService.selectByRowBounds(
 					newsBean,
 					pageBean.getPageRowBounds()));
 			pageBean.setTotalCount(newsService.selectCount(newsBean));
 		} catch (Exception e) {
-			pageBean.error("获取新闻列表失败:" + e.getMessage());
+			pageBean.error(e);
 		}
 		return pageBean.serialize();
 	}
@@ -58,7 +58,7 @@ public class NewsAction extends BaseAction {
 		try {
 			responseBean.setData(newsService.getFromRedisById(requestBean.getLong("newsId")));
 		} catch (Exception e) {
-			responseBean.error("获取新闻信息失败:" + e.getMessage());
+			responseBean.error(e);
 		}
 		return responseBean.serialize();
 	}

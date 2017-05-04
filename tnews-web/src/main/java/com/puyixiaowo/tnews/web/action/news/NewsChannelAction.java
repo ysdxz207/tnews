@@ -3,17 +3,16 @@
  */
 package com.puyixiaowo.tnews.web.action.news;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-
 import com.puyixiaowo.tnews.bean.PageBean;
 import com.puyixiaowo.tnews.bean.RequestBean;
 import com.puyixiaowo.tnews.news.bean.NewsChannelBean;
 import com.puyixiaowo.tnews.news.service.NewsChannelService;
 import com.puyixiaowo.tnews.web.action.BaseAction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 新闻频道
@@ -43,7 +42,7 @@ public class NewsChannelAction extends BaseAction {
 					pageBean.getPageRowBounds()));
 			pageBean.setTotalCount(newsChannelService.selectCount(newsChannelBean));
 		} catch (Exception e) {
-			pageBean.error("获取新闻频道列表失败:" + e.getMessage());
+			pageBean.error(e);
 		}
 		return pageBean.serialize();
 	}

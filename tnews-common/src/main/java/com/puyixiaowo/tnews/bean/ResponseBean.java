@@ -104,12 +104,12 @@ public class ResponseBean implements Serializable {
 		this.data = JSONObject.parse(JSON.toJSONString(data, SerializerFeature.DisableCircularReferenceDetect));
 	}
 
-	public ResponseBean error(String message) {
-		error("ERROR", message);
+	public ResponseBean errorMessage(String message) {
+		errorMessage("ERROR", message);
 		return this;
 	}
 
-	public ResponseBean error(String errorCode, String message) {
+	public ResponseBean errorMessage(String errorCode, String message) {
 		this.statusCode = Constants.RESPONSE_STATUS_CODE_ERROR;
 		this.errorCode = errorCode;
 		this.message = message;
@@ -117,7 +117,7 @@ public class ResponseBean implements Serializable {
 	}
 
 	public ResponseBean error(Exception e) {
-		error(e.getMessage(), e.getCause().getMessage());
+		errorMessage(e.getMessage(), e.getCause().getMessage());
 		return this;
 	}
 

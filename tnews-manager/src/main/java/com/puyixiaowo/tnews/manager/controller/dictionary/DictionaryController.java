@@ -57,7 +57,7 @@ public class DictionaryController extends BaseController{
 			pageBean.setList(list);
 			pageBean.setTotalCount(dictionaryService.selectCountByExample(dictionaryBean));
 		} catch (RuntimeException e) {
-			pageBean.error(e.getMessage());
+			pageBean.errorMessage(e.getMessage());
 		}
 
 		return pageBean.serialize();
@@ -73,7 +73,7 @@ public class DictionaryController extends BaseController{
 			try {
 				dictionaryService.insertOrUpdateSelective(json);
 			} catch (RuntimeException e) {
-				responseBean.error(e.getMessage());
+				responseBean.error(e);
 			}
 			return responseBean;
 		}
@@ -94,7 +94,7 @@ public class DictionaryController extends BaseController{
 		try {
 			dictionaryService.delete(id);
 		} catch (RuntimeException e) {
-			responseBean.error(e.getMessage());
+			responseBean.error(e);
 		}
 		return responseBean;
 	}

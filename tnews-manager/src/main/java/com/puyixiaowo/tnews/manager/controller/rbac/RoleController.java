@@ -65,7 +65,7 @@ public class RoleController extends BaseController {
 			pageBean.setList(roleService.selectByExampleAndRowBounds(example, pageBean.getPageRowBounds()));
 			pageBean.setTotalCount(roleService.selectCountByExample(example));
 		} catch (RuntimeException e) {
-			pageBean.error(e.getMessage());
+			pageBean.errorMessage(e.getMessage());
 		}
 		return pageBean.serialize();
 	}
@@ -80,7 +80,7 @@ public class RoleController extends BaseController {
 			try {
 				roleService.insertOrUpdateSelective(json);
 			} catch (RuntimeException e) {
-				responseBean.error(e.getMessage());
+				responseBean.error(e);
 			}
 			return responseBean;
 		}
@@ -101,7 +101,7 @@ public class RoleController extends BaseController {
 		try {
 			roleService.delete(id);
 		} catch (RuntimeException e) {
-			responseBean.error(e.getMessage());
+			responseBean.error(e);
 		}
 		return responseBean;
 	}
@@ -132,7 +132,7 @@ public class RoleController extends BaseController {
 			try {
 				roleService.setPermission(roleId, permissionIds);
 			} catch (RuntimeException e) {
-				responseBean.error(e.getMessage());
+				responseBean.error(e);
 			}
 			return responseBean;
 		}

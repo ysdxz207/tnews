@@ -25,7 +25,6 @@ public class NewsServiceImpl implements NewsService{
 	
 	@Override
 	public long insertSelective(NewsBean bean) {
-		
 		return newsCustomMapper.insertSelective(bean);
 	}
 

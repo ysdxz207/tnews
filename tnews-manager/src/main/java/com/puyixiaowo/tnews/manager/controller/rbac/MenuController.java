@@ -1,11 +1,14 @@
 package com.puyixiaowo.tnews.manager.controller.rbac;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.puyixiaowo.tnews.bean.PageBean;
+import com.puyixiaowo.tnews.bean.ResponseBean;
+import com.puyixiaowo.tnews.common.utils.CamelCaseUtils;
+import com.puyixiaowo.tnews.manager.bean.MenuBean;
+import com.puyixiaowo.tnews.manager.constants.RoutesRBAC;
+import com.puyixiaowo.tnews.manager.controller.BaseController;
+import com.puyixiaowo.tnews.manager.service.MenuService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.Logical;
@@ -18,19 +21,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.puyixiaowo.tnews.bean.PageBean;
-import com.puyixiaowo.tnews.bean.ResponseBean;
-import com.puyixiaowo.tnews.common.utils.CamelCaseUtils;
-import com.puyixiaowo.tnews.manager.bean.MenuBean;
-import com.puyixiaowo.tnews.manager.constants.RoutesRBAC;
-import com.puyixiaowo.tnews.manager.controller.BaseController;
-import com.puyixiaowo.tnews.manager.service.MenuService;
-
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 菜单管理
@@ -135,7 +132,7 @@ public class MenuController extends BaseController{
 			pageBean.setList(list);
 			pageBean.setTotalCount(menuService.selectCountByExample(example));
 		} catch (Exception e) {
-			pageBean.error(e.getMessage());
+			pageBean.errorMessage(e.getMessage());
 		}
 
 		return pageBean.serialize();
@@ -151,7 +148,7 @@ public class MenuController extends BaseController{
 			try {
 				menuService.insertOrUpdateSelective(json);
 			} catch (RuntimeException e) {
-				responseBean.error(e.getMessage());
+				responseBean.error(e);
 			}
 			return responseBean;
 		}
@@ -169,7 +166,7 @@ public class MenuController extends BaseController{
 		try {
 			menuService.delete(id);
 		} catch (RuntimeException e) {
-			responseBean.error(e.getMessage());
+			responseBean.error(e);
 		}
 		return responseBean;
 	}

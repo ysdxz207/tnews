@@ -176,6 +176,7 @@ public class NewsChannelServiceImpl implements NewsChannelService {
 	 */
 	@Override
 	public void insertOrUpdateSelective(String json) {
+
 		if (StringUtils.isBlank(json)) {
 			return;
 		}

@@ -77,7 +77,7 @@ public class NewsController extends BaseController {
             pageBean.setList(list);
             pageBean.setTotalCount(newsService.selectCountByExample(newsBean));
         } catch (RuntimeException e) {
-            pageBean.error(e.getMessage());
+            pageBean.error(e);
         }
         return pageBean.serialize();
     }
@@ -117,7 +117,7 @@ public class NewsController extends BaseController {
                     newsService.updateByPrimaryKeySelective(newsBean);
                 }
             } catch (RuntimeException e) {
-                responseBean.error(e.getMessage());
+                responseBean.error(e);
             }
             return responseBean;
         }
@@ -148,7 +148,7 @@ public class NewsController extends BaseController {
         try {
             newsService.delete(id);
         } catch (RuntimeException e) {
-            responseBean.error(e.getMessage());
+            responseBean.error(e);
         }
         return responseBean;
     }
@@ -181,7 +181,7 @@ public class NewsController extends BaseController {
                 redisUtils.set(RedisKeys.SWITCH_API_AUTO.key, switchApi);
             }
         } catch (RuntimeException e) {
-            responseBean.error(e.getMessage());
+            responseBean.error(e);
         }
         return responseBean;
     }
@@ -197,7 +197,7 @@ public class NewsController extends BaseController {
         try {
             newsApiService.syncNews();
         } catch (RuntimeException e) {
-            responseBean.error(e.getMessage());
+            responseBean.error(e);
         }
         return responseBean;
     }

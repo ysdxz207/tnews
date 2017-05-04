@@ -3,11 +3,15 @@
  */
 package com.puyixiaowo.tnews.manager.controller.tnews;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.puyixiaowo.tnews.bean.PageBean;
+import com.puyixiaowo.tnews.bean.ResponseBean;
+import com.puyixiaowo.tnews.common.utils.RedisUtils;
+import com.puyixiaowo.tnews.enums.RedisKeys;
+import com.puyixiaowo.tnews.manager.constants.RoutesNews;
+import com.puyixiaowo.tnews.manager.controller.BaseController;
+import com.puyixiaowo.tnews.news.bean.NewsChannelBean;
+import com.puyixiaowo.tnews.news.service.ApiChannelService;
+import com.puyixiaowo.tnews.news.service.NewsChannelService;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +23,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.puyixiaowo.tnews.bean.PageBean;
-import com.puyixiaowo.tnews.bean.ResponseBean;
-import com.puyixiaowo.tnews.common.utils.RedisUtils;
-import com.puyixiaowo.tnews.enums.RedisKeys;
-import com.puyixiaowo.tnews.manager.constants.RoutesNews;
-import com.puyixiaowo.tnews.manager.controller.BaseController;
-import com.puyixiaowo.tnews.news.bean.NewsChannelBean;
-import com.puyixiaowo.tnews.news.service.ApiChannelService;
-import com.puyixiaowo.tnews.news.service.NewsChannelService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 新闻频道
@@ -66,7 +64,7 @@ public class NewsChannelController extends BaseController{
 			pageBean.setList(list);
 			pageBean.setTotalCount(newsChannelService.selectCountByExample(newsChannelBean));
 		} catch (Exception e) {
-			pageBean.error(e.getMessage());
+			pageBean.error(e);
 		}
 		
 		return pageBean.serialize();
@@ -82,7 +80,7 @@ public class NewsChannelController extends BaseController{
 			try {
 				newsChannelService.insertOrUpdateSelective(json);
 			} catch (RuntimeException e) {
-				responseBean.error(e.getMessage());
+				responseBean.error(e);
 			}
 			return responseBean;
 		}
@@ -133,7 +131,7 @@ public class NewsChannelController extends BaseController{
 			redisUtils.set(RedisKeys.API_CHANNEL_USING.key, null);
 			apiChannelService.getUsingChannelListFromRedis();
 		} catch (Exception e) {
-			responseBean.error(e.getMessage());
+			responseBean.error(e);
 		}
 		return responseBean.serialize();
 	}
