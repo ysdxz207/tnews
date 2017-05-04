@@ -1,7 +1,7 @@
 # tnews
 - news server by spring mvc + mybatis + dubbo
 
-- no sql use redis
+- no sql db use redis
 
 - admin UI using B-JUI
 
