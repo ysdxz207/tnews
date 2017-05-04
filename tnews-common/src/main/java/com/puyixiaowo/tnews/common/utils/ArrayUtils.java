@@ -10,6 +10,10 @@ public class ArrayUtils {
 	 * @return
 	 */
 	public static long[] parseToLongArray(String str) {
+		if (org.apache.commons.lang.StringUtils.isBlank(str)) {
+			return new long[0];
+		}
 		return Stream.of(str.split(",")).mapToLong(Long::valueOf).toArray();
 	}
+
 }

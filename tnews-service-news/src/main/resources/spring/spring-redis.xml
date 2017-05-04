@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:redis="http://www.springframework.org/schema/redis"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+    http://www.springframework.org/schema/redis
+    http://www.springframework.org/schema/redis/spring-redis.xsd">
 
 	<bean class="com.puyixiaowo.tnews.common.utils.RedisUtils"></bean>
 
@@ -32,5 +34,26 @@
 				class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
 		</property>
 	</bean>
+
+	<!--以下是mq配置-->
+	<!-- redis发布订阅配置 -->
+	<bean id="serialization"
+		  class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+
+	<bean id="tQMessageDelegateListener" class="com.puyixiaowo.tnews.news.core.redis.TQMessageDelegateListener" />
+
+	<!-- 消息监听适配器 delegate属性指定真正的目标处理器 -->
+	<bean id="smsMessageListener"
+		  class="org.springframework.data.redis.listener.adapter.MessageListenerAdapter">
+		<property name="delegate" ref="tQMessageDelegateListener" />
+		<property name="serializer" ref="serialization" />
+	</bean>
+
+	<!-- 消息监听适配器对应的监听容器 -->
+	<redis:listener-container connection-factory="connectionFactory">
+		<redis:listener ref="smsMessageListener" method="handleMessage"
+						topic="tnews:news" />
+	</redis:listener-container>
+	<!--以上是mq配置-->
 
 </beans>

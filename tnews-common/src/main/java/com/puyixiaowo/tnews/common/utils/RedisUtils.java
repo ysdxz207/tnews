@@ -84,4 +84,9 @@ public class RedisUtils {
 		redisTemplate.delete(key);
 	}
 
+	public void sendMessage(String channel, String message) {
+		redisTemplate.convertAndSend(channel, message);
+	}
+
+
 }

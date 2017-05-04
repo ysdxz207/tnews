@@ -155,7 +155,7 @@ public class NewsChannelServiceImpl implements NewsChannelService {
 		if (StringUtils.isBlank(apiChannelIds)) {
 			return;
 		}
-		Long[] ids = ArrayUtils.parseToLongArray(apiChannelIds);
+		long[] ids = ArrayUtils.parseToLongArray(apiChannelIds);
 		// 删除
 		Example example = new Example(NewsApiChannelBean.class);
 		Criteria c = example.createCriteria();

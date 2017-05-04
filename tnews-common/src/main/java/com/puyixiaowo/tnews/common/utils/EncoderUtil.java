@@ -34,7 +34,7 @@ public class EncoderUtil {
 	
 	/**
 	 * @Des 得到相应的一个MD5加密后的字符串
-	 * @param psd
+	 * @param str
 	 * @param salt
 	 * @return    MD5加密后的字符串
 	 */
@@ -80,7 +80,7 @@ public class EncoderUtil {
 		return buf.toString();
 	}
 	/**
-	 * 123edu密码加密算法
+	 * 密码加密算法
 	 * @param password
 	 * @return
 	 */

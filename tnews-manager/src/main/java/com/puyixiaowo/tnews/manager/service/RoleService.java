@@ -3,17 +3,6 @@
  */
 package com.puyixiaowo.tnews.manager.service;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.ibatis.session.RowBounds;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.entity.Example.Criteria;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.puyixiaowo.tnews.common.utils.ArrayUtils;
@@ -21,6 +10,15 @@ import com.puyixiaowo.tnews.manager.bean.RoleBean;
 import com.puyixiaowo.tnews.manager.bean.RolePermissionBean;
 import com.puyixiaowo.tnews.manager.persistence.RoleCustomMapper;
 import com.puyixiaowo.tnews.manager.persistence.RolePermissionCustomMapper;
+import org.apache.commons.lang.StringUtils;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Example.Criteria;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author huangfeihong
@@ -133,7 +131,7 @@ public class RoleService {
 		if (StringUtils.isBlank(permissionIds)) {
 			return;
 		}
-		Long [] ids = ArrayUtils.parseToLongArray(permissionIds);
+		long [] ids = ArrayUtils.parseToLongArray(permissionIds);
 		//删除角色权限
 		Example example = new Example(RolePermissionBean.class);
 		Criteria c = example.createCriteria();
