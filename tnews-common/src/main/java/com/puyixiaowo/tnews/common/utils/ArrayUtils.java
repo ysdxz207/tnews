@@ -1,6 +1,6 @@
 package com.puyixiaowo.tnews.common.utils;
 
-import org.apache.commons.lang.StringUtils;
+import java.util.stream.Stream;
 
 public class ArrayUtils {
 	
@@ -9,19 +9,7 @@ public class ArrayUtils {
 	 * @param str
 	 * @return
 	 */
-	public static Long[] parseToLongArray(String str) {
-		if (StringUtils.isNotBlank(str)) {
-
-			try {
-				String[] strArr = str.split(",");
-				Long[] result = new Long[strArr.length];
-				for (int i = 0; i < strArr.length; i++)
-					result[i] = Long.parseLong(strArr[i]);
-				return result;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return new Long[0];
+	public static long[] parseToLongArray(String str) {
+		return Stream.of(str.split(",")).mapToLong(Long::valueOf).toArray();
 	}
 }

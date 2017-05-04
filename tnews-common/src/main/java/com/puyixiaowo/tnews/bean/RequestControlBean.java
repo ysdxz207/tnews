@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 访问接口请求控制
- * @author weishaoqiang
+ * @author huangfeihong
  * @date 2017-04-07 11:58
  */
 public class RequestControlBean implements Serializable{

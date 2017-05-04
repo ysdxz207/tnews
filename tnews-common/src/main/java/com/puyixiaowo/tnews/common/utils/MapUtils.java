@@ -3,7 +3,7 @@ package com.puyixiaowo.tnews.common.utils;
 import java.util.Map;
 
 /**
- * @author weishaoqiang
+ * @author huangfeihong
  * @date 2017-04-26 17:53
  */
 public class MapUtils {

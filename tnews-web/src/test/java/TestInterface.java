@@ -5,7 +5,7 @@ import java.nio.file.Paths;
 /**
  * 函数式接口演示
  * 函数式接口必须要有且仅有一个抽象方法声明
- * @author weishaoqiang
+ * @author huangfeihong
  * @date 2017-04-26 14:42
  */
 public class TestInterface {
@@ -17,6 +17,8 @@ public class TestInterface {
 	public static Integer convertit(String from) {
 		return Integer.valueOf(from);
 	}
+
+
 
 	public static void main(String[] args) throws IOException {
 		//Converter<String, Integer> converter = (from) -> convertit(from);
