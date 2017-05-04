@@ -88,7 +88,7 @@ public class NewsApiServiceImpl implements NewsApiService {
 				contentObj.put("pubDate", DateUtils.formatDateTime(new Date()));
 			}
 			try {
-
+				contentObj.remove("id");//移除ID属性
 				NewsBean newsBean = JSON.parseObject(contentObj.toJSONString(),
 						NewsBean.class);
 				if (faceUrlObj != null
